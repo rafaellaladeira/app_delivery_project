@@ -1,4 +1,3 @@
-
 const salesProductsSchema = (sequelize, DataTypes) => {
   const salesProducts = sequelize.define("SalesProduct", {
     saleId: DataTypes.NUMBER,
