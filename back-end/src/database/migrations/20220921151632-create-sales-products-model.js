@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         field: 'sale_id',
         references: {
-          model: 'Sale',
+          model: 'sales',
           key: 'id',
         },
         type: Sequelize.INTEGER
@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false,
         field: 'product_id',
         references: {
-          model: 'Product',
+          model: 'products',
           key: 'id',
         },
         type: Sequelize.INTEGER
@@ -26,14 +26,6 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
-      }
     });
   },
   down: async(queryInterface, Sequelize) => {
