@@ -5,5 +5,4 @@ const hashValidation = (key) => {
     return hash;
 };
 
-
 module.exports = hashValidation;

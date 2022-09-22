@@ -10,7 +10,7 @@ const NotFound = (message) => {
     throw err;
 };
 
-module.exports =  { 
+module.exports =  {
     InvalidInfo,
     NotFound,
 };
