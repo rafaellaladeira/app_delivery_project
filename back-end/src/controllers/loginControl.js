@@ -1,11 +1,15 @@
-const loginService = require('../services/loginService')
+const { NotFound } = require('../utils/utils');
+const loginService = require('../services/loginService');
+const hashValidation = require('../middlewares/hashMiddleware');
 
 const login = async (req, res, next) => {
     try {
-        const data = req.body;
+        const { password, email } = req.body;
+        const hash = hashValidation(password);
+        const data = { email, hash };
         const result = await loginService.login(data);
         if (result) return res.status(200).end();
-        return res.status(404).json({ error: "Not Found" });
+        NotFound('Not found');
     } catch (error) {
         next(error);
     }
@@ -13,4 +17,4 @@ const login = async (req, res, next) => {
 
 module.exports = {
     login,
-}
+};
