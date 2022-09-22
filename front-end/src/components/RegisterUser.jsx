@@ -50,7 +50,7 @@ function RegisterUser() {
           type="submit"
           name="submitBTN"
           id="loggin-submit-btn"
-          data-testid=""
+          data-testid="common_register__button-register"
         >
           CADASTRAR
         </button>
