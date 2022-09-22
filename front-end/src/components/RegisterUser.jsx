@@ -1,9 +1,24 @@
 import React, { useState } from 'react';
+import api from '../services/registerApi';
 
 function RegisterUser() {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [role] = useState('customer');
+
+  const registerUser = () => {
+    console.log('registraaaaaa');
+    api.post('/register', {
+      name,
+      email,
+      password,
+      role,
+    }).then((response) => (response))
+      .catch((err) => {
+        console.error(`ops! ocorreu um erro${err}`);
+      });
+  };
 
   return (
     <>
@@ -40,17 +55,18 @@ function RegisterUser() {
             name="passwordInput"
             id="password-input"
             data-testid="common_register__input-password"
-            value={ password }
+            // value={password}
             onChange={ ({ target }) => setPassword(target.value) }
           />
         </label>
 
         <button
           className="btn-login"
-          type="submit"
+          type="button"
           name="submitBTN"
           id="loggin-submit-btn"
           data-testid="common_register__button-register"
+          onClick={ registerUser }
         >
           CADASTRAR
         </button>
