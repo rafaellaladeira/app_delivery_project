@@ -9,7 +9,6 @@ const NEW_USER = Joi.object({
 
 const validRegister = async (req, res, next) => {
   const { error } = NEW_USER.validate(req.body);
-  console.log(error);
   if (error) {
     next(error);
   }
