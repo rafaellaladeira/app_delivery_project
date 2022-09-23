@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { requestRegisterUser } from '../services/request';
 
@@ -8,9 +8,8 @@ function RegisterUser() {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [role] = useState('customer');
-  // const [userValid, setUserValid] = useState(false);
-
-  // const history = useHistory();
+  const [err, setErr] = useState();
+  const [userValid, setUserValid] = useState(false);
 
   const validInputs = () => {
     const MIN_NAME = 12;
@@ -20,19 +19,21 @@ function RegisterUser() {
     const nameTest = name.length < MIN_NAME;
     const passwordTest = password.length < MIN_PASSWORD;
     const emailTest = !(REGEX.test(email));
-    // if (nameTest || emailTest || passwordTest) {
-    //   setUserValid(true);
-    // }
+
     return !(!nameTest && !emailTest && !passwordTest);
   };
 
-  const registerUser = async () => {
+  const registerUser = async (e) => {
+    e.preventDefault();
     try {
-      await requestRegisterUser('/register', { name, email, password, role });
+      await
+      requestRegisterUser('/register', { name, email, password, role });
+      setUserValid(true);
+      // if (userValid) ;
     } catch (error) {
-      console.error(`ops! ocorreu um erro${err}`);
+      setErr(error.message);
+      console.error(`ops! ocorreu um erro${error}`);
     }
-    // if (userValid) history.push('customer/products');
   };
 
   return (
@@ -88,7 +89,20 @@ function RegisterUser() {
         >
           CADASTRAR
         </button>
+        {
+          err
+            ? (
+              <span
+                data-testid="common_register__element-invalid_register"
+              >
+                { err }
+              </span>
+            ) : ''
+        }
       </form>
+      {
+        userValid ? <Redirect to="customer/products" /> : null
+      }
     </>
   );
 }
