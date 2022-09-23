@@ -7,7 +7,7 @@ const loginMiddleware = async (req, _res, next) => {
         if (!email.match(emailRegex)) {
             InvalidInfo('Some required fields are missing');
         }
-        if (password.length < 5 ) InvalidInfo('Some required fields are missing');
+        if (password.length < 5) InvalidInfo('Some required fields are missing');
         next();
     } catch (error) {
         next(error);
