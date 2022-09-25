@@ -9,4 +9,3 @@ customerRouter.get('/products', getAllProducts);
 customerRouter.get('/checkout', control.getSeller);
 
 module.exports = customerRouter;
-
