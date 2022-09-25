@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import MyContext from '../context/MyContext';
 import { getProductsCart } from '../services/localStorage';
-import { getInfo, request } from '../services/request';
+import { request } from '../services/request';
 
 function Checkout() {
+  const { nameSeller } = useContext(MyContext);
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [sellerName, setSellerName] = useState([]);
   const [seller, setSeller] = useState('');
   const [productsCart, setProductsCart] = useState([]);
   console.log(productsCart);
@@ -37,12 +38,7 @@ function Checkout() {
     }
   };
 
-  const getNamesSeller = async () => {
-    const names = await getInfo('customer/checkout', 'seller');
-    setSellerName(names);
-  };
   useEffect(() => {
-    getNamesSeller();
     setProductsCart(getProductsCart());
   }, []);
 
@@ -112,9 +108,9 @@ function Checkout() {
 
         <h2>Detalhes e Endereço para Entrega</h2>
 
-        { sellerName.map((name) => (
+        { nameSeller.map((e) => (
           <label
-            key={ name }
+            key={ e.name }
             htmlFor="seller"
           >
             P. Vendedora responsável
@@ -124,7 +120,7 @@ function Checkout() {
               onChange={ handleChange }
               data-testid="customer_checkout__select-seller"
             >
-              <option>{ name }</option>
+              <option>{ e.name }</option>
             </select>
           </label>
 

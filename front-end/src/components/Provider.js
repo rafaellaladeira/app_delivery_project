@@ -1,11 +1,29 @@
-import React from 'react';
-// { useEffect, useState }
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { getInfo } from '../services/request';
 import MyContext from '../context/MyContext';
 
 function Provider({ children }) {
+  const [nameSeller, setNameSeller] = useState([]);
+
+  useEffect(() => {
+    const getNamesSeller = async () => {
+      const data = { role: 'seller' };
+      const names = await getInfo('customer/checkout', data);
+      setNameSeller(names);
+    };
+    getNamesSeller();
+  }, []);
+
+  const providerState = nameSeller;
+  console.log(nameSeller);
+
+  useEffect(() => {
+    providerState.nameSeller = nameSeller;
+  }, [nameSeller]);
+
   return (
-    <MyContext.Provider>
+    <MyContext.Provider value={ providerState }>
       { children }
     </MyContext.Provider>
   );
