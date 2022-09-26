@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 function CardProduct({ id, name, price, urlImage }) {
   return (
-    <section className="card-products">
+    <section>
       <span
         data-testid={ `customer_products__element-card-price-${id}` }
       >
@@ -32,7 +32,7 @@ function CardProduct({ id, name, price, urlImage }) {
         data-testid={ `customer_products__button-card-add-item-${id}` }
         // onClick={ valueQuantity(false) }
       >
-        -
+        +
       </button>
     </section>
   );

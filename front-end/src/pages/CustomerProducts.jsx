@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import CardProduct from '../components/CustomerProducts/CardProduct';
+import CheckoutButton from '../components/CustomerProducts/CheckoutButton';
 import NavProducts from '../components/CustomerProducts/NavProducts';
 import { getAllProducts } from '../services/request';
 
@@ -21,23 +22,16 @@ function CustomerProducts() {
       <NavProducts />
       {
         listProducts.map((product) => (
-          <>
-            <CardProduct
-              key={ product.id }
-              id={ product.id }
-              name={ product.name }
-              price={ product.price }
-              urlImage={ product.urlImage }
-            />
-            <button
-              type="button"
-              data-testid="customer_products__checkout-bottom-value"
-            >
-              R$ 10,00
-            </button>
-          </>
+          <CardProduct
+            key={ product.id }
+            id={ product.id }
+            name={ product.name }
+            price={ product.price }
+            urlImage={ product.urlImage }
+          />
         ))
       }
+      <CheckoutButton />
     </>
   );
 }
