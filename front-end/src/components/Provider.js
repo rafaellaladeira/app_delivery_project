@@ -8,20 +8,14 @@ function Provider({ children }) {
 
   useEffect(() => {
     const getNamesSeller = async () => {
-      const data = { role: 'seller' };
-      const names = await getInfo('customer/checkout', data);
+      const names = await getInfo('customer/checkout');
       setNameSeller(names);
     };
     getNamesSeller();
   }, []);
 
   const providerState = nameSeller;
-  console.log(nameSeller);
-
-  useEffect(() => {
-    providerState.nameSeller = nameSeller;
-  }, [nameSeller, providerState]);
-
+  
   return (
     <MyContext.Provider value={ providerState }>
       { children }

@@ -1,15 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 import { getProductsCart } from '../services/localStorage';
 import { request } from '../services/request';
 
-function Checkout() {
-  const { nameSeller } = useContext(MyContext);
+function Checkout({ history }) {
+  const nameSeller = useContext(MyContext);
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
+  const [customerName, setCustomerName] = useState('');
+  const [totalPrice, setTotalPrice] = useState('');
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
   const [seller, setSeller] = useState('');
+  const [order, setOrder] = useState('');
   const [productsCart, setProductsCart] = useState([]);
   console.log(productsCart);
   // const testId = 'customer_checkout__';
@@ -17,7 +21,7 @@ function Checkout() {
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
     if (name === 'number') setNumber(value);
-    if (name === 'seller') setSeller(value);
+    // if (name === 'seller') setSeller(select);
   };
 
   //  const handleClickRemove = () => {
@@ -25,14 +29,24 @@ function Checkout() {
   //  };
 
   const handleSubmit = async () => {
+    setCustomerName('Cliente Zé Birita');
+    setTotalPrice(2);
+    setSeller('Fulana Pereira');
+
     const data = {
+      userName: customerName,
       sellerName: seller,
+      totalPrice,
       deliveryAddress: address,
       deliveryNumber: number,
+      status: 'pendente',
     };
+
     try {
       const result = await request('customer/checkout', data);
-      return result;
+      setOrder(result);
+      history.push(`customer/orders/${order}`);
+      console.log(`${order}`);
     } catch (error) {
       return error;
     }
@@ -116,6 +130,8 @@ function Checkout() {
             P. Vendedora responsável
 
             <select
+              id="seller"
+              value={ seller }
               name="seller"
               onChange={ handleChange }
               data-testid="customer_checkout__select-seller"
@@ -157,5 +173,11 @@ function Checkout() {
     </div>
   );
 }
+
+Checkout.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
 
 export default Checkout;

@@ -7,5 +7,6 @@ const customerRouter = Router();
 customerRouter.get('/products', getAllProducts);
 
 customerRouter.get('/checkout', control.getSeller);
+customerRouter.post('/checkout', control.postSale);
 
 module.exports = customerRouter;
