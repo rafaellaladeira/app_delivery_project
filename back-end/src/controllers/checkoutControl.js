@@ -1,12 +1,26 @@
 const service = require('../services/checkoutService');
 
-const getSeller = async (req, res, next) => {
+const getSeller = async (_req, res, next) => {
     try {
-        const data = await service.getSeller(req.body);
+        const data = await service.getSeller();
         return res.status(200).json(data);
     } catch (error) {
         next(error);
     }
 };
 
-module.exports = { getSeller };
+const postSale = async (req, res, next) => {
+    try {
+        const data = req.body;
+        const result = await service.postSale(data);
+        return res.status(200).json(result);
+
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { 
+    getSeller,
+    postSale,
+ };
