@@ -21,13 +21,15 @@ function CardProduct({ id, name, price, urlImage }) {
       </p>
       <button
         type="button"
+        data-testid={ `customer_products__button-card-rm-item-${id}` }
         // onClick={ valueQuantity(true) }
       >
-        +
+        -
       </button>
       <span>0</span>
       <button
         type="button"
+        data-testid={ `customer_products__button-card-add-item-${id}` }
         // onClick={ valueQuantity(false) }
       >
         -

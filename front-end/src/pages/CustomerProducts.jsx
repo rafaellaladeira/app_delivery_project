@@ -21,13 +21,21 @@ function CustomerProducts() {
       <NavProducts />
       {
         listProducts.map((product) => (
-          <CardProduct
-            key={ product.id }
-            id={ product.id }
-            name={ product.name }
-            price={ product.price }
-            urlImage={ product.urlImage }
-          />
+          <>
+            <CardProduct
+              key={ product.id }
+              id={ product.id }
+              name={ product.name }
+              price={ product.price }
+              urlImage={ product.urlImage }
+            />
+            <button
+              type="button"
+              data-testid="customer_products__checkout-bottom-value"
+            >
+              R$ 10,00
+            </button>
+          </>
         ))
       }
     </>
