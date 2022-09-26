@@ -11,6 +11,7 @@ const productsSchema = (sequelize, DataTypes) => {
    }, 
    {
     timestamps: false,
+    tableName: 'products',
    });
 
    
