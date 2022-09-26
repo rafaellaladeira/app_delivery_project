@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Provider from './components/Provider';
 import Register from './pages/Register';
 import Checkout from './pages/CheckOut';
+import CustomerOrders from './pages/CustomerOrders';
+import CustomerOrder from "./pages/CustomerOrder";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
           <Route exact path="/login" component={ Login } />
           <Route exact path="/register" component={ Register } />
           <Route exact path="/customer/checkout" component={ Checkout } />
+          <Route exact path="/customer/orders" component={ CustomerOrders } />
+          <Route exact path="/customer/orders/:id" component={ CustomerOrder } />
         </Switch>
       </section>
     </Provider>
