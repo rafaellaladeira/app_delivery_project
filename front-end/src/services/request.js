@@ -14,8 +14,8 @@ export const requestRegisterUser = async (endpoint, body) => {
   return data;
 };
 
-export const getInfo = async (endpoint, body) => {
-  const { data } = await api.get(endpoint, body);
+export const getInfo = async (endpoint) => {
+  const { data } = await api.get(endpoint);
   return data;
 };
 

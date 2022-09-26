@@ -14,7 +14,6 @@ const postSale = async (req, res, next) => {
         const data = req.body;
         const result = await service.postSale(data);
         return res.status(200).json(result);
-
     } catch (error) {
         next(error);
     }
