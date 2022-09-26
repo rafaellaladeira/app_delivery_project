@@ -15,7 +15,6 @@ function Provider({ children }) {
   }, []);
 
   const providerState = nameSeller;
-  
   return (
     <MyContext.Provider value={ providerState }>
       { children }

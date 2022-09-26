@@ -13,12 +13,10 @@ const postSale = async (data) => {
         userName, sellerName, totalPrice, deliveryAddress, deliveryNumber, status,
     } = data;
     const userId = await db.User.findOne({
-        attributes: ['id'],
-        where: { name: userName },
+        attributes: ['id'], where: { name: userName },
     });
     const sellerId = await db.User.findOne({
-        attributes: ['id'],
-        where: { name: sellerName },
+        attributes: ['id'], where: { name: sellerName },
     });
     const result = await db.Sale.create({
         userId: userId.id,
