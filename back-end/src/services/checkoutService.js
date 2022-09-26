@@ -21,8 +21,12 @@ const postSale = async (data) => {
         where: { name: sellerName },
     });
     const result = await db.Sale.create({
-        userId: userId.id, sellerId: sellerId.id, totalPrice, 
-        deliveryAddress, deliveryNumber, status,
+        userId: userId.id,
+        sellerId: sellerId.id,
+        totalPrice, 
+        deliveryAddress,
+        deliveryNumber,
+        status,
     });
     return result.null;
 };
