@@ -19,4 +19,9 @@ export const getInfo = async (endpoint, body) => {
   return data;
 };
 
+export const getAllProducts = async (endpoint) => {
+  const { data } = await api.get(endpoint);
+  return data;
+};
+
 export default api;
