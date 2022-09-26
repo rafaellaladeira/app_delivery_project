@@ -10,11 +10,11 @@ function CustomerProducts() {
     const products = await getAllProducts('customer/products');
     console.log(products);
     setListProducts(products);
-  });
+  }, []);
 
   useEffect(() => {
     getAll();
-  }, []);
+  }, [getAll]);
 
   return (
     <>
