@@ -4,7 +4,6 @@ const errorMiddleware = require('../middlewares/error.middleware');
 const loginRouter = require('../routers/login.router');
 const registerRouter = require('../routers/register.router');
 const customerRouter = require('../routers/product.router');
-const path = require('path');
 require('express-async-errors');
 
 const app = express();
@@ -13,7 +12,7 @@ app.use(express.json());
 
 app.use(cors());
 // http://expressjs.com/en/starter/static-files.html
-app.use('/images', express.static('public/images'))
+app.use('/images', express.static('public/images'));
 
 app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/login', loginRouter);

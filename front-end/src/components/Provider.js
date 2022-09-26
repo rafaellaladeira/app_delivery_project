@@ -20,7 +20,7 @@ function Provider({ children }) {
 
   useEffect(() => {
     providerState.nameSeller = nameSeller;
-  }, [nameSeller]);
+  }, [nameSeller, providerState]);
 
   return (
     <MyContext.Provider value={ providerState }>
