@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { requestLogin } from '../services/request';
+import { request } from '../services/request';
 // import MyContext from '../context/MyContext';
 
 function Login({ history }) {
@@ -25,7 +25,7 @@ function Login({ history }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await requestLogin('/login', { email, password });
+      await request('/login', { email, password });
 
       if (setFailedTryLogin) history.push('customer/products');
     } catch (error) {
