@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import CardProduct from '../components/CustomerProducts/CardProduct';
+import CheckoutButton from '../components/CustomerProducts/CheckoutButton';
 import NavProducts from '../components/CustomerProducts/NavProducts';
 import { getAllProducts } from '../services/request';
 
@@ -30,6 +31,7 @@ function CustomerProducts() {
           />
         ))
       }
+      <CheckoutButton />
     </>
   );
 }
