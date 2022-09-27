@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
+import { cleanUserLocalstorage, getNameUser } from '../../services/localStorage';
 
 function NavProducts() {
+  const [logoutUser, setLogoutUser] = useState(false);
+
   const logout = () => {
-    console.log('sair');
+    cleanUserLocalstorage();
+    setLogoutUser(true);
   };
+
+  const fullName = getNameUser();
 
   return (
     <nav className="nav-bar">
@@ -12,15 +19,22 @@ function NavProducts() {
         <p data-testid="customer_products__element-navbar-link-orders">MEUS PEDIDOS</p>
       </div>
       <div>
-        <p data-testid="customer_products__element-navbar-user-full-name">Full Name</p>
+        <p
+          data-testid="customer_products__element-navbar-user-full-name"
+        >
+          { fullName }
+        </p>
         <button
           type="button"
           data-testid="customer_products__element-navbar-link-logout"
-          onClick={ logout }
+          onClick={ () => logout() }
         >
           Sair
         </button>
       </div>
+      {
+        logoutUser ? <Redirect to="/login" /> : null
+      }
     </nav>
   );
 }
