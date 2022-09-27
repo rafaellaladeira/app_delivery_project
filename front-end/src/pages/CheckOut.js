@@ -6,10 +6,10 @@ import { removeProductCart } from '../services/localStorage';
 import { request } from '../services/request';
 
 function Checkout({ history }) {
-  const { nameSeller } = useContext(MyContext);
+  const { nameSeller, nameCustomer } = useContext(MyContext);
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
-  const [customerName] = useState('Cliente Zé Birita');
+
   const [totalPrice] = useState(2);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
@@ -58,7 +58,7 @@ function Checkout({ history }) {
 
   const handleSubmit = async () => {
     const data = {
-      userName: customerName,
+      userName: nameCustomer,
       sellerId,
       totalPrice,
       deliveryAddress: address,
