@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 import { removeProductCart } from '../services/localStorage';
@@ -15,15 +15,16 @@ function Checkout({ history }) {
   const [number, setNumber] = useState('');
   const [seller, setSeller] = useState('Fulana Pereira');
   const [sellerId, setSellerId] = useState('');
+  const [totalValue] = useState(0);
   // const [productsCart, setProductsCart] = useState([]);
 
   const dataTest = 'customer_checkout__';
 
-  const getSellerId = async (sellers) => {
+  const getSellerId = useCallback(async (sellers) => {
     await sellers.forEach((e) => {
       if (seller === e.name) setSellerId(e.id);
     });
-  };
+  }, [seller]);
 
   const mockDataLocalS = [{
     item: 1,
@@ -37,8 +38,6 @@ function Checkout({ history }) {
     quantity: 4,
     unitV: 2.59,
     subT: 18,
-  },
-  { total: 20,
   }];
 
   const handleChange = ({ target: { name, value } }) => {
@@ -76,7 +75,7 @@ function Checkout({ history }) {
   useEffect(() => {
     // setProductsCart(getProductsCart());
     getSellerId();
-  }, []);
+  }, [getSellerId]);
 
   return (
     <div>
@@ -140,7 +139,13 @@ function Checkout({ history }) {
           </tbody>
         ))}
       </table>
-
+      <h1
+        data-testid={ `${dataTest}element-order-total-price` }
+      >
+        Total R$
+        {' '}
+        { totalValue }
+      </h1>
       <section>
 
         <h2>Detalhes e Endereço para Entrega</h2>
