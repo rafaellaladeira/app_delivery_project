@@ -8,6 +8,18 @@ export const addProductCart = (product) => {
   localStorage.setItem(PRODUCTS_CART, JSON.stringify(newProducts));
 };
 
+export const addUser = (user) => {
+  const { name, email, role, token } = user;
+  localStorage.setItem('user', JSON.stringify({ name, email, role, token }));
+};
+
+export const getNameUser = () => {
+  const user = JSON.parse(localStorage.getItem('user')) || [];
+  return user.name;
+};
+
+export const cleanUserLocalstorage = () => localStorage.clear();
+
 // remove produto do carrinho
 
 export const removeProductCart = (id) => {
