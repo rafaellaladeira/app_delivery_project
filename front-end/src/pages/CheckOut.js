@@ -15,10 +15,12 @@ function Checkout({ history }) {
   const [number, setNumber] = useState('');
   const [seller, setSeller] = useState('Fulana Pereira');
   const [sellerId, setSellerId] = useState('');
+  // const [idSend, setIdSend] = useState('');
+  const [quantity] = useState('');
   const [totalValue] = useState(0);
   // const [productsCart, setProductsCart] = useState([]);
 
-  const dataTest = 'customer_checkout__';
+  const dataTest = 'customer_checkout__element-order-table-';
 
   const getSellerId = useCallback(async (sellers) => {
     await sellers.forEach((e) => {
@@ -27,18 +29,24 @@ function Checkout({ history }) {
   }, [seller]);
 
   const mockDataLocalS = [{
-    item: 1,
+    id: 1,
     name: 'Cerveja',
     quantity: 3,
     unitV: 1.55,
     subT: 15,
   }, {
-    item: 2,
+    id: 2,
     name: 'Refri',
     quantity: 4,
     unitV: 2.59,
     subT: 18,
   }];
+
+  // const getProductsFromLocalStorage = () => {
+  //   productsCart.forEach((e) => (
+
+  //   ))
+  // }
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
@@ -56,6 +64,11 @@ function Checkout({ history }) {
   };
 
   const handleSubmit = async () => {
+    //  mockDataLocalS.forEach((e) => {
+    //   setId(e.id),
+    //   setQuantity(e.quantity),
+    // });
+
     const data = {
       userName: nameCustomer,
       sellerId,
@@ -63,6 +76,7 @@ function Checkout({ history }) {
       deliveryAddress: address,
       deliveryNumber: number,
       status: 'pendente',
+      quantity,
     };
     try {
       const id = await request('customer/checkout', data);
@@ -97,39 +111,39 @@ function Checkout({ history }) {
           <tbody key={ item.name }>
             <tr>
               <td
-                data-testid={ `${dataTest}element-order-table-item-number-${item.item}` }
+                data-testid={ `${dataTest}item-number-${mockDataLocalS.indexOf(item)}` }
               >
-                { item.item }
+                { mockDataLocalS.indexOf(item) + 1 }
 
               </td>
               <td
-                data-testid={ `${dataTest}element-order-table-name-${item.item}` }
+                data-testid={ `${dataTest}name-${mockDataLocalS.indexOf(item)}` }
               >
                 { item.name }
 
               </td>
               <td
-                data-testid={ `${dataTest}element-order-table-quantity-${item.item}` }
+                data-testid={ `${dataTest}quantity-${mockDataLocalS.indexOf(item)}` }
               >
                 { item.quantity}
 
               </td>
               <td
-                data-testid={ `${dataTest}element-order-table-unit-price-${item.item}` }
+                data-testid={ `${dataTest}unit-price-${mockDataLocalS.indexOf(item)}` }
               >
-                { item.unitV }
+                { item.unitPrice }
 
               </td>
               <td
-                data-testid={ `${dataTest}element-order-table-sub-total-${item.item}` }
+                data-testid={ `${dataTest}sub-total-${mockDataLocalS.indexOf(item)}` }
               >
-                { item.subT }
+                { item.subTotal }
               </td>
               <td>
                 <button
                   type="button"
-                  value={ item.item }
-                  data-testid={ `${dataTest}element-order-table-remove-${item.item}` }
+                  value={ mockDataLocalS.indexOf(item) }
+                  data-testid={ `${dataTest}remove-${mockDataLocalS.indexOf(item)}` }
                   onClick={ (e) => handleClickRemove(e) }
                 >
                   Remover

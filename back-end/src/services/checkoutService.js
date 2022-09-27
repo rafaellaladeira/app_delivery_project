@@ -14,7 +14,7 @@ const postSale = async (data) => {
     const userId = await db.User.findOne({
         attributes: ['id'], where: { name: userName },
     });
-    const result = await db.Sale.create({
+    const saleId = await db.Sale.create({
         userId: userId.dataValues.id,
         sellerId,
         totalPrice, 
@@ -22,9 +22,12 @@ const postSale = async (data) => {
         deliveryNumber,
         status,
     });
-    result.save();
-    console.log(result);
-    return result.null;
+    await db.SalesProduct.create({
+        saleId: saleId.null,
+        // productId,
+        // quantity,
+    });
+    return saleId.null;
 };
 
 module.exports = { 
