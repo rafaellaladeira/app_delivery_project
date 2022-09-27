@@ -6,7 +6,7 @@ import { removeProductCart } from '../services/localStorage';
 import { request } from '../services/request';
 
 function Checkout({ history }) {
-  const nameSeller = useContext(MyContext);
+  const { nameSeller } = useContext(MyContext);
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
   const [customerName] = useState('Cliente Zé Birita');
