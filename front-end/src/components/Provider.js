@@ -14,7 +14,12 @@ function Provider({ children }) {
     getNamesSeller();
   }, []);
 
-  const providerState = nameSeller;
+  // https://www.w3schools.com/react/react_usememo.asp
+  const providerState = useMemo(() => ({
+    nameSeller,
+    setNameSeller,
+  }), [nameSeller]);
+
   return (
     <MyContext.Provider value={ providerState }>
       { children }
