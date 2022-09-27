@@ -1,7 +1,5 @@
 'use strict';
 
-const salesSchema = require("../models/sales.model");
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('users', {

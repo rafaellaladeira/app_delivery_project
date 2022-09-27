@@ -1,59 +1,81 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
-import { getProductsCart } from '../services/localStorage';
+import { removeProductCart } from '../services/localStorage';
+// getProductsCart,
 import { request } from '../services/request';
 
 function Checkout({ history }) {
   const nameSeller = useContext(MyContext);
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
-  const [customerName, setCustomerName] = useState('');
-  const [totalPrice, setTotalPrice] = useState('');
+  const [customerName] = useState('Cliente Zé Birita');
+  const [totalPrice] = useState(2);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [seller, setSeller] = useState('');
-  const [order, setOrder] = useState('');
-  const [productsCart, setProductsCart] = useState([]);
-  console.log(productsCart);
-  // const testId = 'customer_checkout__';
+  const [seller, setSeller] = useState('Fulana Pereira');
+  const [sellerId, setSellerId] = useState('');
+  // const [productsCart, setProductsCart] = useState([]);
+
+  const dataTest = 'customer_checkout__';
+
+  const getSellerId = async (sellers) => {
+    await sellers.forEach((e) => {
+      if (seller === e.name) setSellerId(e.id);
+    });
+  };
+
+  const mockDataLocalS = [{
+    item: 1,
+    name: 'Cerveja',
+    quantity: 3,
+    unitV: 1.55,
+    subT: 15,
+  }, {
+    item: 2,
+    name: 'Refri',
+    quantity: 4,
+    unitV: 2.59,
+    subT: 18,
+  },
+  { total: 20,
+  }];
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
     if (name === 'number') setNumber(value);
-    // if (name === 'seller') setSeller(select);
+    getSellerId(nameSeller);
   };
 
-  //  const handleClickRemove = () => {
+  const handleClickRemove = (e) => {
+    removeProductCart(e);
+  };
 
-  //  };
+  const handleSelect = (e) => {
+    setSeller(e.target.value);
+    getSellerId(nameSeller);
+  };
 
   const handleSubmit = async () => {
-    setCustomerName('Cliente Zé Birita');
-    setTotalPrice(2);
-    setSeller('Fulana Pereira');
-
     const data = {
       userName: customerName,
-      sellerName: seller,
+      sellerId,
       totalPrice,
       deliveryAddress: address,
       deliveryNumber: number,
       status: 'pendente',
     };
-
     try {
-      const result = await request('customer/checkout', data);
-      setOrder(result);
-      history.push(`customer/orders/${order}`);
-      console.log(`${order}`);
+      const id = await request('customer/checkout', data);
+      history.push(`orders/${id}`);
     } catch (error) {
       return error;
     }
   };
 
   useEffect(() => {
-    setProductsCart(getProductsCart());
+    // setProductsCart(getProductsCart());
+    getSellerId();
   }, []);
 
   return (
@@ -71,76 +93,81 @@ function Checkout({ history }) {
           </tr>
         </thead>
 
-        {/* {productsCart.map((item) => (
+        {mockDataLocalS.map((item) => (
 
           <tbody key={ item.name }>
             <tr>
               <td
-                data-testid={ `element-order-table-item-number-${item.item}` }
+                data-testid={ `${dataTest}element-order-table-item-number-${item.item}` }
               >
                 { item.item }
 
               </td>
               <td
-                data-testid={ `element-order-table-name-${item.item}` }
+                data-testid={ `${dataTest}element-order-table-name-${item.item}` }
               >
                 { item.name }
 
               </td>
               <td
-                data-testid={ `element-order-table-quantity-${item.item}` }
+                data-testid={ `${dataTest}element-order-table-quantity-${item.item}` }
               >
                 { item.quantity}
 
               </td>
               <td
-                data-testid={ `element-order-table-unit-price-${item.item}` }
+                data-testid={ `${dataTest}element-order-table-unit-price-${item.item}` }
               >
-                { item.vunit }
+                { item.unitV }
 
               </td>
               <td
-                data-testid={ `element-order-table-sub-total-${item.item}` }
+                data-testid={ `${dataTest}element-order-table-sub-total-${item.item}` }
               >
-                { item.total }
+                { item.subT }
               </td>
               <td>
                 <button
                   type="button"
-                  data-testid={ `element-order-table-remove-${item.item}` }
-                  onClick={ handleClick }
+                  value={ item.item }
+                  data-testid={ `${dataTest}element-order-table-remove-${item.item}` }
+                  onClick={ (e) => handleClickRemove(e) }
                 >
                   Remover
                 </button>
               </td>
             </tr>
           </tbody>
-        ))} */}
+        ))}
       </table>
 
       <section>
 
         <h2>Detalhes e Endereço para Entrega</h2>
 
-        { nameSeller.map((e) => (
-          <label
-            key={ e.name }
-            htmlFor="seller"
+        <label
+          htmlFor="seller"
+        >
+          P. Vendedora responsável
+
+          <select
+            id="seller"
+            value={ seller }
+            name="seller"
+            onChange={ (e) => handleSelect(e) }
+            data-testid="customer_checkout__select-seller"
           >
-            P. Vendedora responsável
+            { nameSeller.map((e) => (
+              <option
+                value={ e.id }
+                key={ e.name }
+              >
+                { e.name }
+              </option>
+            ))}
+          </select>
 
-            <select
-              id="seller"
-              value={ seller }
-              name="seller"
-              onChange={ handleChange }
-              data-testid="customer_checkout__select-seller"
-            >
-              <option>{ e.name }</option>
-            </select>
-          </label>
-
-        ))}
+        </label>
 
         <label htmlFor="address">
           Endereço
