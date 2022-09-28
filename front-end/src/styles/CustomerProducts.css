@@ -5,10 +5,9 @@
 .card-div-product {
   background-color: rgba(184, 184, 184, 0.39);
   display: inline-block;
-  width: 300px;
 }
 
 .img-product {
-  max-height: 100%;
-  max-width: 100%;
+  max-height: 200px;
+  max-width: 200px;
 }
