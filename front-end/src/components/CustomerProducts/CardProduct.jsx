@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/CustomerProducts.css';
 import { addProductCart } from '../../services/localStorage';
@@ -6,34 +6,23 @@ import { addProductCart } from '../../services/localStorage';
 function CardProduct({ id, name, price, urlImage }) {
   const [qtdProducts, setQtdProducts] = useState(0);
 
-  const addToCart = (prodQtd) => {
-    // eslint-disable-next-line max-len
-    const subTotal = parseFloat(price * prodQtd);
-    const cart = { id, name, quantity: prodQtd, unityPrice: price, subTotal };
-    addProductCart(cart);
-    // setQtdProducts(Number(cart.quantity));
-    // console.log(cart.quantity);
-  };
+  const addToCart = useCallback(() => {
+    const total = parseFloat(qtdProducts * price).toFixed(2);
+    const cart = { id, name, quantity: qtdProducts, unityPrice: price, subTotal: total };
+    const arrayProd = [];
+    if (cart.subTotal > 0) {
+      arrayProd.push(cart);
+      addProductCart(arrayProd);
+    }
+  }, [id, name, price, qtdProducts]);
 
-  let x = 0;
-  let y = 0;
-
-  const addProd = (event) => {
-    x += 1;
-    y = x;
-    console.log(event.target);
-    setQtdProducts();
-    addToCart(x);
-  };
-
-  // const addProd = (() => {
-  //   setQtdProducts(qtdProducts + 1);
-  // }, () => addToCart(qtdProducts));
-
-  const rmProd = () => setQtdProducts(qtdProducts - 1);
+  const valueQuantity = (verifyQtd) => (
+    verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
+  );
 
   useEffect(() => {
-  }, [qtdProducts]);
+    addToCart();
+  }, [addToCart, qtdProducts]);
 
   return (
     <section className="card-product">
@@ -62,26 +51,21 @@ function CardProduct({ id, name, price, urlImage }) {
         <button
           type="button"
           data-testid={ `customer_products__button-card-rm-item-${id}` }
-          // onClick={ () => valueQuantity(false) }
-          onClick={ () => rmProd() }
+          onClick={ () => valueQuantity(false) }
           disabled={ qtdProducts < 1 }
         >
           -
         </button>
         <input
           type="number"
-          id="input "
           data-testid={ `customer_products__input-card-quantity-${id}` }
           value={ qtdProducts }
-          onChange={ (event) => addProd(event) }
-          // readOnly
-
+          onChange={ (e) => setQtdProducts(e.target.value) }
         />
         <button
           type="button"
           data-testid={ `customer_products__button-card-add-item-${id}` }
-          // onClick={ () => valueQuantity(true) }
-          onClick={ () => addProd() }
+          onClick={ () => valueQuantity(true) }
         >
           +
         </button>
