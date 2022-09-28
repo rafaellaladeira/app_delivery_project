@@ -16,7 +16,7 @@ function CardProduct({ id, name, price, urlImage }) {
   };
 
   let x = 0;
-  let y = 0;
+  // let y = 0;
 
   const addProd = (event) => {
     x += 1;

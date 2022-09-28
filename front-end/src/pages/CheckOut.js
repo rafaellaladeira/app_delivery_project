@@ -25,14 +25,14 @@ function Checkout({ history }) {
     id: 1,
     name: 'Cerveja',
     quantity: 3,
-    unitV: 1.55,
-    subT: 15,
+    unitPrice: 1.55,
+    subTotal: 15,
   }, {
     id: 2,
     name: 'Refri',
     quantity: 4,
-    unitV: 2.59,
-    subT: 18,
+    unitPrice: 2.59,
+    subTotal: 18,
   }];
 
   const getProductsFromLocalStorage = (products) => {
