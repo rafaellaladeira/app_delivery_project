@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 import { removeProductCart } from '../services/localStorage';
@@ -13,20 +13,13 @@ function Checkout({ history }) {
   const [totalPrice] = useState(2);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
-  const [seller, setSeller] = useState('Fulana Pereira');
-  const [sellerId, setSellerId] = useState('');
-  // const [idSend, setIdSend] = useState('');
-  const [quantity] = useState('');
+  const [sellerId, setSellerId] = useState(2);
+  const [idSend, setIdSend] = useState('');
+  const [quantity, setQuantity] = useState('');
   const [totalValue] = useState(0);
   // const [productsCart, setProductsCart] = useState([]);
 
   const dataTest = 'customer_checkout__element-order-table-';
-
-  const getSellerId = useCallback(async (sellers) => {
-    await sellers.forEach((e) => {
-      if (seller === e.name) setSellerId(e.id);
-    });
-  }, [seller]);
 
   const mockDataLocalS = [{
     id: 1,
@@ -42,34 +35,30 @@ function Checkout({ history }) {
     subT: 18,
   }];
 
-  // const getProductsFromLocalStorage = () => {
-  //   productsCart.forEach((e) => (
-
-  //   ))
-  // }
+  const getProductsFromLocalStorage = (products) => {
+    products.forEach((e) => {
+      setQuantity(e.quantity);
+      setIdSend(e.id);
+    });
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
     if (name === 'number') setNumber(value);
-    getSellerId(nameSeller);
   };
 
   const handleClickRemove = (e) => {
     removeProductCart(e);
+    getProductsFromLocalStorage(mockDataLocalS);
   };
 
   const handleSelect = (e) => {
-    setSeller(e.target.value);
-    getSellerId(nameSeller);
+    setSellerId(+e.target.value);
   };
 
   const handleSubmit = async () => {
-    //  mockDataLocalS.forEach((e) => {
-    //   setId(e.id),
-    //   setQuantity(e.quantity),
-    // });
-
     const data = {
+      productId: idSend,
       userName: nameCustomer,
       sellerId,
       totalPrice,
@@ -88,8 +77,7 @@ function Checkout({ history }) {
 
   useEffect(() => {
     // setProductsCart(getProductsCart());
-    getSellerId();
-  }, [getSellerId]);
+  }, []);
 
   return (
     <div>
@@ -171,7 +159,6 @@ function Checkout({ history }) {
 
           <select
             id="seller"
-            value={ seller }
             name="seller"
             onChange={ (e) => handleSelect(e) }
             data-testid="customer_checkout__select-seller"

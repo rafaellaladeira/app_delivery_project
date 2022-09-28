@@ -22,11 +22,11 @@ const postSale = async (data) => {
         deliveryNumber,
         status,
     });
-    await db.SalesProduct.create({
-        saleId: saleId.null,
-        // productId,
-        // quantity,
-    });
+    // await db.SalesProduct.create({
+    //     saleId: saleId.null,
+    //     // productId,
+    //     // quantity,
+    // });
     return saleId.null;
 };
 
