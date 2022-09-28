@@ -5,6 +5,7 @@ const errors = {
 
 const errorMiddleware = (error, _req, res, _next) => {
     const { message, name } = error;
+    console.log(error);
     const status = errors[name];
     if (!status) {
         console.log('Middleware de Erro', error.status);

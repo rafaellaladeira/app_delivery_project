@@ -6,7 +6,7 @@ import Provider from './components/Provider';
 import Register from './pages/Register';
 import Checkout from './pages/CheckOut';
 import CustomerOrders from './pages/CustomerOrders';
-import CustomerOrder from "./pages/CustomerOrder";
+import CustomerOrder from './pages/CustomerOrder';
 
 function App() {
   return (

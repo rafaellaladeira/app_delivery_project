@@ -4,6 +4,7 @@ const errorMiddleware = require('../middlewares/error.middleware');
 const loginRouter = require('../routers/login.router');
 const registerRouter = require('../routers/register.router');
 const productRouter = require('../routers/product.router');
+const orderRouter = require('../routers/order.router');
 require('express-async-errors');
 
 const app = express();
@@ -15,6 +16,7 @@ app.get('/coffee', (_req, res) => res.status(418).end());
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/products', productRouter);
+app.use('/orders', orderRouter);
 app.use(errorMiddleware);
 
 module.exports = app;
