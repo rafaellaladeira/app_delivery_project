@@ -1,4 +1,5 @@
-const PropTypes = require('prop-types');
+import PropTypes from 'prop-types';
+import numberToBrl from '../shared/currency';
 
 function ProductDetailsTable({ order }) {
   return (
@@ -69,4 +70,4 @@ ProductDetailsTable.propTypes = {
   }),
 }.isRequired;
 
-module.exports = ProductDetailsTable;
+export default ProductDetailsTable;
