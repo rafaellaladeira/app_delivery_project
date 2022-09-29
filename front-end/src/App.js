@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Checkout from './pages/CheckOut';
 import CustomerOrders from './pages/CustomerOrders';
 import CustomerOrder from './pages/CustomerOrder';
+import CostumerProducts from './pages/CustomerProducts';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route exact path="/customer/checkout" component={ Checkout } />
           <Route exact path="/customer/orders" component={ CustomerOrders } />
           <Route exact path="/customer/orders/:id" component={ CustomerOrder } />
+          <Route exact path="/customer/products" component={ CostumerProducts } />
         </Switch>
       </section>
     </Provider>

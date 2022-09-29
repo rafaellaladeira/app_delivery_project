@@ -1,11 +1,37 @@
-import React from 'react';
-// { useEffect, useState }
+import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import { getInfo } from '../services/request';
 import MyContext from '../context/MyContext';
+import { getNameUser } from '../services/localStorage';
 
 function Provider({ children }) {
+  const [nameSeller, setNameSeller] = useState([]);
+  const [nameCustomer, setNameCustomer] = useState('');
+
+  useEffect(() => {
+    const getNamesSeller = async () => {
+      const names = await getInfo('customer/checkout');
+      setNameSeller(names);
+    };
+    const getNameCustomer = async () => {
+      const namecustomer = getNameUser;
+      setNameCustomer(namecustomer);
+    };
+
+    getNamesSeller();
+    getNameCustomer();
+  }, []);
+
+  // https://www.w3schools.com/react/react_usememo.asp
+  const providerState = useMemo(() => ({
+    nameSeller,
+    setNameSeller,
+    nameCustomer,
+    setNameCustomer,
+  }), [nameSeller, nameCustomer]);
+
   return (
-    <MyContext.Provider>
+    <MyContext.Provider value={ providerState }>
       { children }
     </MyContext.Provider>
   );

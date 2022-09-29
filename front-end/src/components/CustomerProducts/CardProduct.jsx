@@ -1,0 +1,85 @@
+import React, { useState, useEffect, useCallback } from 'react';
+import PropTypes from 'prop-types';
+import '../../styles/CustomerProducts.css';
+import { addProductCart } from '../../services/localStorage';
+
+function CardProduct({ id, name, price, urlImage }) {
+  const [qtdProducts, setQtdProducts] = useState(0);
+
+  const addToCart = useCallback(() => {
+    const total = parseFloat(qtdProducts * price).toFixed(2);
+    const cart = { id, name, quantity: qtdProducts, unityPrice: price, subTotal: total };
+    const arrayProd = [];
+    if (cart.subTotal > 0) {
+      arrayProd.push(cart);
+      addProductCart(arrayProd);
+    }
+  }, [id, name, price, qtdProducts]);
+
+  const valueQuantity = (verifyQtd) => (
+    verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
+  );
+  console.log('....');
+
+  useEffect(() => {
+    addToCart();
+  }, [addToCart, qtdProducts]);
+
+  return (
+    <section className="card-product">
+      <div
+        className="card-div-product"
+      >
+        <p
+          data-testid={ `customer_products__element-card-price-${id}` }
+        >
+          { new Intl.NumberFormat(
+            'pt-BR',
+            { style: 'currency', currency: 'BRL' },
+          ).format(price) }
+        </p>
+        <img
+          className="img-product"
+          data-testid={ `customer_products__img-card-bg-image-${id}` }
+          src={ urlImage }
+          alt={ name }
+        />
+        <p
+          data-testid={ `customer_products__element-card-title-${id}` }
+        >
+          { name }
+        </p>
+        <button
+          type="button"
+          data-testid={ `customer_products__button-card-rm-item-${id}` }
+          onClick={ () => valueQuantity(false) }
+          disabled={ qtdProducts < 1 }
+        >
+          -
+        </button>
+        <input
+          type="number"
+          data-testid={ `customer_products__input-card-quantity-${id}` }
+          value={ qtdProducts }
+          onChange={ (e) => setQtdProducts(e.target.value) }
+        />
+        <button
+          type="button"
+          data-testid={ `customer_products__button-card-add-item-${id}` }
+          onClick={ () => valueQuantity(true) }
+        >
+          +
+        </button>
+      </div>
+    </section>
+  );
+}
+
+CardProduct.propTypes = {
+  id: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.string,
+  urlImage: PropTypes.string,
+}.isRequired;
+
+export default CardProduct;

@@ -8,7 +8,7 @@ const login = async (req, res, next) => {
         const hash = hashValidation(password);
         const data = { email, hash };
         const result = await loginService.login(data);
-        if (result) return res.status(200).end();
+        if (result) return res.status(200).json(result);
         NotFound('Not found');
     } catch (error) {
         next(error);
