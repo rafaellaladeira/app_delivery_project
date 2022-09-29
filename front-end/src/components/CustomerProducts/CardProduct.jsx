@@ -1,20 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/CustomerProducts.css';
-import { addProductCart } from '../../services/localStorage';
+import { produce } from 'immer';
+import MyContext from '../../context/MyContext';
+// import { addProductCart } from '../../services/localStorage';
 
 function CardProduct({ id, name, price, urlImage }) {
   const [qtdProducts, setQtdProducts] = useState(0);
-
-  const addToCart = useCallback(() => {
-    const total = parseFloat(qtdProducts * price).toFixed(2);
-    const cart = { id, name, quantity: qtdProducts, unityPrice: price, subTotal: total };
-    const arrayProd = [];
-    if (cart.subTotal > 0) {
-      arrayProd.push(cart);
-      addProductCart(arrayProd);
-    }
-  }, [id, name, price, qtdProducts]);
+  // const [productsCart, setProductsCart] = useState([]);
+  const { cartProduct, setCartProduct } = useContext(MyContext);
 
   const valueQuantity = (verifyQtd) => (
     verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
@@ -22,8 +16,25 @@ function CardProduct({ id, name, price, urlImage }) {
   console.log('....');
 
   useEffect(() => {
+    const addToCart = () => {
+      // const total = parseFloat(qtdProducts * price).toFixed(2);
+      const cart = { id, name, quantity: qtdProducts, unityPrice: price };
+
+      const existsProduct = cartProduct.findIndex((p) => p.id === id);
+      // console.log(testFind);
+      const NOT_FOUND = 0;
+      const newCart = produce(cartProduct, (draft) => {
+        if (existsProduct < NOT_FOUND) {
+          draft.push(cart);
+          // setCartProduct([...cartProduct, cart]);
+        } else {
+          draft[existsProduct].quantity = cart.quantity;
+        }
+      });
+      setCartProduct(newCart);
+    };
     addToCart();
-  }, [addToCart, qtdProducts]);
+  }, [cartProduct, id, name, price, qtdProducts, setCartProduct]);
 
   return (
     <section className="card-product">
