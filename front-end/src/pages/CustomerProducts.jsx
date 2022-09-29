@@ -19,7 +19,7 @@ function CustomerProducts() {
     getAll();
   }, [getAll]);
 
-  // console.log(cartProduct);
+  console.log(cartProduct);
   return (
     <>
       <NavProducts />
