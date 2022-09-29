@@ -3,11 +3,9 @@ import PropTypes from 'prop-types';
 import '../../styles/CustomerProducts.css';
 import { produce } from 'immer';
 import MyContext from '../../context/MyContext';
-// import { addProductCart } from '../../services/localStorage';
 
 function CardProduct({ id, name, price, urlImage }) {
   const [qtdProducts, setQtdProducts] = useState(0);
-  // const [productsCart, setProductsCart] = useState([]);
   const { cartProduct, setCartProduct } = useContext(MyContext);
 
   const valueQuantity = (verifyQtd) => (
@@ -16,18 +14,20 @@ function CardProduct({ id, name, price, urlImage }) {
 
   useEffect(() => {
     const addToCart = () => {
-      // const total = parseFloat(qtdProducts * price).toFixed(2);
-      const cart = { id, name, quantity: qtdProducts, unityPrice: price };
+      const total = Number(qtdProducts * price);
+      const cart = {
+        id, name, quantity: qtdProducts, unityPrice: price, subTotal: total };
 
       const existsProduct = cartProduct.findIndex((p) => p.id === id);
-      // console.log(testFind);
+
       const NOT_FOUND = 0;
       const newCart = produce(cartProduct, (draft) => {
         if (existsProduct < NOT_FOUND) {
           draft.push(cart);
-          // setCartProduct([...cartProduct, cart]);
         } else {
           draft[existsProduct].quantity = cart.quantity;
+          draft[existsProduct].subTotal = Number(cart.unityPrice)
+          * draft[existsProduct].quantity;
         }
       });
       setCartProduct(newCart);
