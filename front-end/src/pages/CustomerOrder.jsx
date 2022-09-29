@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import translateOrder from '../shared/orderState';
 import formatDate from '../shared/date';
 import numberToBrl from '../shared/currency';
 import { getOrder } from '../services/orders';
+import ProductDetailsTable from '../components/ProductDetailsTable';
 
 const ID_LENGTH = 4;
 const LAST_INDEX = -1;
@@ -16,7 +16,7 @@ export default function CustomerOrder() {
       const orderData = await getOrder(orderId);
       setOrder(orderData);
     })();
-  }, []);
+  }, [orderId]);
 
   if (!order) return (<div />);
   return (
@@ -42,7 +42,7 @@ export default function CustomerOrder() {
           <p
             data-testid="customer_order_details__element-order-details-label-order-date"
           >
-            { formatDate(order.sale_date) }
+            { formatDate(order.saleDate) }
           </p>
           <p
             data-testid={
@@ -50,7 +50,7 @@ export default function CustomerOrder() {
               + 'element-order-details-label-delivery-status'
             }
           >
-            { translateOrder(order.status) }
+            { order.status }
           </p>
           { order.status !== 'delivered' && (
             <button
@@ -61,64 +61,13 @@ export default function CustomerOrder() {
             </button>
           ) }
         </div>
-        <table className="details-items">
-          <thead>
-            <tr>
-              <td>Item</td>
-              <td>Descrição</td>
-              <td>Quantidade</td>
-              <td>Valor Unitário</td>
-              <td>Sub-total</td>
-            </tr>
-          </thead>
-          <tbody>
-            { order.products.map((product, index) => (
-              <tr key={ index }>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-item-number-${index + 1}`
-                  }
-                >
-                  { index + 1 }
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-name-${index + 1}`
-                  }
-                >
-                  { product.product.name }
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-quantity-${index + 1}`
-                  }
-                >
-                  { product.quantity }
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-unit-price-${index + 1}`
-                  }
-                >
-                  { numberToBrl(product.product.price) }
-                </td>
-                <td
-                  data-testid={
-                    `customer_order_details__element-order-table-sub-total-${index + 1}`
-                  }
-                >
-                  { numberToBrl(product.quantity * product.product.price) }
-                </td>
-              </tr>
-            )) }
-          </tbody>
-        </table>
+        <ProductDetailsTable order={ order } />
 
         <h3
           data-testid="customer_order_details__element-order-total-price"
         >
           Total:
-          { numberToBrl(order.total_price) }
+          { numberToBrl(order.totalPrice) }
         </h3>
       </article>
     </div>

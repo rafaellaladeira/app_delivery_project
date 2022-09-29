@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import translateOrder from '../shared/orderState';
 import formatDate from '../shared/date';
 import numberToBrl from '../shared/currency';
 import { getOrders } from '../services/orders';
@@ -39,7 +38,7 @@ export default function CustomerOrders() {
               className="order_status"
               data-testid={ `customer_orders__element-delivery-status-${order.id}` }
             >
-              { translateOrder(order.status) }
+              { order.status }
             </div>
             <div className="order_info">
               <p
