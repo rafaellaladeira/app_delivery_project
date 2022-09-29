@@ -36,10 +36,11 @@ const salesSchema = (sequelize, DataTypes) => {
 
   sales.associate = (models) => {
     sales.belongsTo(models.User,
-      { foreingKey: "userId", as: "userIds" },
-      { foreingKey: "selledId", as: "userIds" }
+      { foreignKey: "userId", as: "user" },
     );
-    // sales.belongsTo(models.User, )
+    sales.belongsTo(models.User,
+      { foreignKey: "sellerId", as: "seller" }
+    );
   }
 
   return sales;
