@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/CustomerProducts.css';
 import { produce } from 'immer';
@@ -10,32 +10,30 @@ function CardProduct({ id, name, price, urlImage }) {
   // const [productsCart, setProductsCart] = useState([]);
   const { cartProduct, setCartProduct } = useContext(MyContext);
 
-  const addToCart = useCallback(() => {
-    // const total = parseFloat(qtdProducts * price).toFixed(2);
-    const cart = { id, name, quantity: qtdProducts, unityPrice: price };
-
-    const existsProduct = cartProduct.findIndex((p) => p.id === id);
-    // console.log(testFind);
-    const NOT_FOUND = 0;
-
-    const newCart = produce(cartProduct, (draft) => {
-      if (existsProduct < NOT_FOUND) {
-        draft.push(cart);
-        // setCartProduct([...cartProduct, cart]);
-      } else {
-        draft[existsProduct].quantity = cart.quantity;
-      }
-    });
-    setCartProduct(newCart);
-  }, [qtdProducts]);
-
   const valueQuantity = (verifyQtd) => (
     verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
   );
 
   useEffect(() => {
+    const addToCart = () => {
+      // const total = parseFloat(qtdProducts * price).toFixed(2);
+      const cart = { id, name, quantity: qtdProducts, unityPrice: price };
+
+      const existsProduct = cartProduct.findIndex((p) => p.id === id);
+      // console.log(testFind);
+      const NOT_FOUND = 0;
+      const newCart = produce(cartProduct, (draft) => {
+        if (existsProduct < NOT_FOUND) {
+          draft.push(cart);
+          // setCartProduct([...cartProduct, cart]);
+        } else {
+          draft[existsProduct].quantity = cart.quantity;
+        }
+      });
+      setCartProduct(newCart);
+    };
     addToCart();
-  }, [addToCart, qtdProducts]);
+  }, [cartProduct, id, name, price, qtdProducts, setCartProduct]);
 
   return (
     <section className="card-product">
