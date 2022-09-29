@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import CardProduct from '../components/CustomerProducts/CardProduct';
 import CheckoutButton from '../components/CustomerProducts/CheckoutButton';
 import NavProducts from '../components/CustomerProducts/NavProducts';
@@ -9,17 +9,16 @@ function CustomerProducts() {
   const [listProducts, setListProducts] = useState([]);
   const { cartProduct } = useContext(MyContext);
 
-  const getAll = useCallback(async () => {
-    const products = await getAllProducts('customer/products');
-    // console.log(products);
-    setListProducts(products);
+  useEffect(() => {
+    const getAll = async () => {
+      const products = await getAllProducts('customer/products');
+      // console.log(products);
+      setListProducts(products);
+    };
+    getAll();
   }, []);
 
-  useEffect(() => {
-    getAll();
-  }, [getAll]);
-
-  console.log(cartProduct);
+  // console.log(cartProduct);
   return (
     <>
       <NavProducts />
