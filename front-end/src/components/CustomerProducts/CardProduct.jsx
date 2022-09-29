@@ -1,25 +1,32 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../../styles/CustomerProducts.css';
-import { addProductCart } from '../../services/localStorage';
+import MyContext from '../../context/MyContext';
+// import { addProductCart } from '../../services/localStorage';
 
 function CardProduct({ id, name, price, urlImage }) {
   const [qtdProducts, setQtdProducts] = useState(0);
+  // const [productsCart, setProductsCart] = useState([]);
+  const { cartProduct, setCartProduct } = useContext(MyContext);
 
   const addToCart = useCallback(() => {
     const total = parseFloat(qtdProducts * price).toFixed(2);
     const cart = { id, name, quantity: qtdProducts, unityPrice: price, subTotal: total };
-    const arrayProd = [];
-    if (cart.subTotal > 0) {
-      arrayProd.push(cart);
-      addProductCart(arrayProd);
+
+    const testFind = cartProduct.findIndex((p) => p.id === id);
+    // console.log(testFind);
+    const NOT_FOUND = 0;
+
+    if (testFind < NOT_FOUND) {
+      setCartProduct([...cartProduct, cart]);
+    } else {
+      setCartProduct([cart]);
     }
-  }, [id, name, price, qtdProducts]);
+  }, [qtdProducts]);
 
   const valueQuantity = (verifyQtd) => (
     verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
   );
-  console.log('....');
 
   useEffect(() => {
     addToCart();

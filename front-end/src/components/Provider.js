@@ -7,6 +7,7 @@ import { getNameUser } from '../services/localStorage';
 function Provider({ children }) {
   const [nameSeller, setNameSeller] = useState([]);
   const [nameCustomer, setNameCustomer] = useState('');
+  const [cartProduct, setCartProduct] = useState([]);
 
   useEffect(() => {
     const getNamesSeller = async () => {
@@ -28,7 +29,9 @@ function Provider({ children }) {
     setNameSeller,
     nameCustomer,
     setNameCustomer,
-  }), [nameSeller, nameCustomer]);
+    cartProduct,
+    setCartProduct,
+  }), [nameSeller, nameCustomer, cartProduct]);
 
   return (
     <MyContext.Provider value={ providerState }>
