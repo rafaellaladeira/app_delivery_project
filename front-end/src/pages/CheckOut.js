@@ -13,19 +13,19 @@ function Checkout({ history }) {
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
   const [sellerId, setSellerId] = useState(2);
-  const [idSend, setIdSend] = useState('');
-  const [quantity, setQuantity] = useState('');
+  // const [idSend, setIdSend] = useState('');
+  // const [quantity, setQuantity] = useState('');
   const [productsCart, setProductsCart] = useState([]);
   const { total, setTotal } = useContext(MyContext);
 
   const dataTest = 'customer_checkout__element-order-table-';
 
-  const getProductsFromLocalStorage = (products) => {
-    products.forEach((e) => {
-      setQuantity(e.quantity);
-      setIdSend(e.id);
-    });
-  };
+  // const getProductsFromLocalStorage = (products) => {
+  //   products.forEach((e) => {
+  //     setQuantity(e.quantity);
+  //     setIdSend(e.id);
+  //   });
+  // };
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
@@ -36,7 +36,7 @@ function Checkout({ history }) {
     removeProductCart(e);
     const newTotal = total - a;
     setTotal(newTotal);
-    getProductsFromLocalStorage(productsCart);
+    setProductsCart(getProductsCart());
   };
 
   const handleSelect = (e) => {
@@ -116,10 +116,10 @@ function Checkout({ history }) {
               </td>
               <td>
                 <button
-                  type="button"
-                  value={ productsCart.indexOf(item) }
+                  type="submit"
+                  value={ item.id }
                   data-testid={ `${dataTest}remove-${productsCart.indexOf(item)}` }
-                  onClick={ (e) => handleClickRemove(e, item.subTotal) }
+                  onClick={ () => handleClickRemove(item.id, item.subTotal) }
                 >
                   Remover
                 </button>
@@ -131,7 +131,7 @@ function Checkout({ history }) {
       <h1
         data-testid="customer_checkout__element-order-total-price"
       >
-        { total.replace('.', ',') }
+        { total.toFixed(2).replace('.', ',') }
       </h1>
       <section>
 
