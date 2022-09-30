@@ -11,7 +11,6 @@ function CardProduct({ id, name, price, urlImage }) {
   const valueQuantity = (verifyQtd) => (
     verifyQtd ? setQtdProducts(qtdProducts + 1) : setQtdProducts(qtdProducts - 1)
   );
-  console.log('....');
 
   useEffect(() => {
     const addToCart = () => {

@@ -13,6 +13,12 @@ export const getNameUser = () => {
   return user.name;
 };
 
+// pega o token do localStorage
+export const getTokenUser = () => {
+  const user = JSON.parse(localStorage.getItem(USER)) || [];
+  return user.token;
+};
+
 // limpa o localStorage
 export const cleanUserLocalstorage = () => localStorage.clear();
 

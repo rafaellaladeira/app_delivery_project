@@ -1,31 +1,33 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
-import { removeProductCart, getProductsCart } from '../services/localStorage';
+import {
+  removeProductCart,
+  getProductsCart, getTokenUser, getNameUser } from '../services/localStorage';
 import { request } from '../services/request';
 
 function Checkout({ history }) {
-  const { nameSeller, nameCustomer } = useContext(MyContext);
+  const { nameSeller } = useContext(MyContext);
+  const [nameCustomer, setNameCustomer] = useState('');
   const columnNames = ['Item', 'Descrição', 'Quantidade',
     'Valor unitário', 'Sub-total', 'Remover Item'];
-
-  const [totalPrice] = useState(2);
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
   const [sellerId, setSellerId] = useState(2);
-  // const [idSend, setIdSend] = useState('');
-  // const [quantity, setQuantity] = useState('');
+  const [product, setProduct] = useState([]);
   const [productsCart, setProductsCart] = useState([]);
   const { total, setTotal } = useContext(MyContext);
+  const [token, setToken] = useState('');
 
+  console.log(product);
   const dataTest = 'customer_checkout__element-order-table-';
 
-  // const getProductsFromLocalStorage = (products) => {
-  //   products.forEach((e) => {
-  //     setQuantity(e.quantity);
-  //     setIdSend(e.id);
-  //   });
-  // };
+  const getProductsFromLocalStorage = (products) => {
+    const ids = products.forEach((e) => e.id);
+    const qtds = products.forEach((e) => e.quantity);
+    setProduct([ids, qtds]);
+    return data;
+  };
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
@@ -34,9 +36,10 @@ function Checkout({ history }) {
 
   const handleClickRemove = (e, a) => {
     removeProductCart(e);
+    setProductsCart(getProductsCart());
     const newTotal = total - a;
     setTotal(newTotal);
-    setProductsCart(getProductsCart());
+    getProductsFromLocalStorage(productsCart);
   };
 
   const handleSelect = (e) => {
@@ -45,17 +48,18 @@ function Checkout({ history }) {
 
   const handleSubmit = async () => {
     const data = {
-      productId: idSend,
       userName: nameCustomer,
       sellerId,
-      totalPrice,
+      totalPrice: total,
       deliveryAddress: address,
       deliveryNumber: number,
-      status: 'pendente',
-      quantity,
+      status: 'Pendente',
+      // product,
     };
     try {
-      const id = await request('customer/checkout', data);
+      console.log('token front', token);
+      const id = await request('customer/checkout', data, token);
+      console.log(id);
       history.push(`orders/${id}`);
     } catch (error) {
       return error;
@@ -63,6 +67,8 @@ function Checkout({ history }) {
   };
 
   useEffect(() => {
+    setNameCustomer(getNameUser());
+    setToken(getTokenUser());
     setProductsCart(getProductsCart());
   }, []);
 
