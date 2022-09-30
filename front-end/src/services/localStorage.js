@@ -17,10 +17,8 @@ export const getNameUser = () => {
 export const cleanUserLocalstorage = () => localStorage.clear();
 
 // adiciona produto no carrinho
-export const addProductCart = (product) => {
-  const products = JSON.parse(localStorage.getItem(PRODUCTS_CART)) || [];
-  const newProducts = [...products, product];
-  localStorage.setItem(PRODUCTS_CART, JSON.stringify(newProducts));
+export const addProductCart = (catProducts) => {
+  localStorage.setItem(PRODUCTS_CART, JSON.stringify(catProducts));
 };
 
 // remove produto do carrinho

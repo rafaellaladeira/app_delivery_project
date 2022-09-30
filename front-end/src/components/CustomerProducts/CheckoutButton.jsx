@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import MyContext from '../../context/MyContext';
+import { addProductCart } from '../../services/localStorage';
 import '../../styles/CheckoutButton.css';
 
 function CheckoutButton() {
@@ -10,6 +11,9 @@ function CheckoutButton() {
   const [btnDisable, setBtnDisable] = useState(false);
 
   const checkoutPage = (checkout) => {
+    const cartToCheckout = cartProduct.filter((prod) => prod.subTotal !== 0); // ## REMOVE Produto com qtd 0 antes de adicionar no localstorage.
+
+    addProductCart(cartToCheckout);
     if (checkout) {
       return setGoCheckout(true);
     }
@@ -18,23 +22,18 @@ function CheckoutButton() {
   const INITIAL_VALUE_CART = 0;
 
   const calcTotal = () => {
-    if (cartProduct.length === 0) {
+    if (total === INITIAL_VALUE_CART) {
       setBtnDisable(true);
-      return setTotal(Number(INITIAL_VALUE_CART.toFixed(2)));
-    }
-    if (cartProduct.length === 1) {
-      console.log(total);
-      setBtnDisable(false);
-      return setTotal(Number(cartProduct[0].subTotal.toFixed(2)));
     }
 
     const sumValues = cartProduct.reduce((acc, value) => (
       acc + Number(value.subTotal)
     ), 0);
 
-    console.log(sumValues);
-    setBtnDisable(false);
     setTotal(Number(sumValues.toFixed(2)));
+    if (total > INITIAL_VALUE_CART) {
+      setBtnDisable(false);
+    }
   };
 
   useEffect(() => {
