@@ -1,10 +1,11 @@
 const fs = require('fs');
 
 const readFile = () => {
-  let secretPhrase = '';
+  // let secretPhrase = '';
   try {
-    secretPhrase = fs.readFileSync('jwt.evaluation.key', 'utf-8');
-    return secretPhrase;
+    console.log(fs.readFileSync('jwt.evaluation.key', 'utf-8'));
+    return fs.readFileSync('jwt.evaluation.key', 'utf-8');
+    // return secretPhrase;
   } catch (error) {
     console.log(error);
   }

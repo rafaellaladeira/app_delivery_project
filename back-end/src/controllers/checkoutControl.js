@@ -11,10 +11,8 @@ const getSeller = async (_req, res, next) => {
 
 const postSale = async (req, res, next) => {
     try {
-        console.log('control', req.body);
-        const data = req.body;
-        const result = await service.postSale(data);
-        return res.status(200).json(result);
+        const result = await service.postSale(req.body);
+        return res.status(201).json(result);
     } catch (error) {
         next(error);
     }

@@ -11,6 +11,7 @@ const postSale = async (data) => {
     const {
         userName, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
     } = data;
+    console.log('username serv', userName);
     const userId = await db.User.findOne({
         attributes: ['id'], where: { name: userName },
     });
