@@ -6,7 +6,7 @@ import '../../styles/CheckoutButton.css';
 
 function CheckoutButton() {
   const { cartProduct } = useContext(MyContext);
-  const [total, setTotal] = useState(0);
+  const { total, setTotal } = useContext(MyContext);
   const [goCheckout, setGoCheckout] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
 

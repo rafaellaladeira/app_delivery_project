@@ -8,6 +8,7 @@ function Provider({ children }) {
   const [nameSeller, setNameSeller] = useState([]);
   const [nameCustomer, setNameCustomer] = useState('');
   const [cartProduct, setCartProduct] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const getNamesSeller = async () => {
@@ -31,7 +32,9 @@ function Provider({ children }) {
     setNameCustomer,
     cartProduct,
     setCartProduct,
-  }), [nameSeller, nameCustomer, cartProduct]);
+    total,
+    setTotal,
+  }), [nameSeller, nameCustomer, cartProduct, total]);
 
   return (
     <MyContext.Provider value={ providerState }>

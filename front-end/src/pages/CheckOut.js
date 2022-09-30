@@ -1,8 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
-import { removeProductCart } from '../services/localStorage';
-// getProductsCart,
+import { removeProductCart, getProductsCart } from '../services/localStorage';
 import { request } from '../services/request';
 
 function Checkout({ history }) {
@@ -16,24 +15,10 @@ function Checkout({ history }) {
   const [sellerId, setSellerId] = useState(2);
   const [idSend, setIdSend] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [totalValue] = useState(0);
-  // const [productsCart, setProductsCart] = useState([]);
+  const [productsCart, setProductsCart] = useState([]);
+  const { total, setTotal } = useContext(MyContext);
 
   const dataTest = 'customer_checkout__element-order-table-';
-
-  const mockDataLocalS = [{
-    id: 1,
-    name: 'Cerveja',
-    quantity: 3,
-    unitPrice: 1.55,
-    subTotal: 15,
-  }, {
-    id: 2,
-    name: 'Refri',
-    quantity: 4,
-    unitPrice: 2.59,
-    subTotal: 18,
-  }];
 
   const getProductsFromLocalStorage = (products) => {
     products.forEach((e) => {
@@ -47,9 +32,11 @@ function Checkout({ history }) {
     if (name === 'number') setNumber(value);
   };
 
-  const handleClickRemove = (e) => {
+  const handleClickRemove = (e, a) => {
     removeProductCart(e);
-    getProductsFromLocalStorage(mockDataLocalS);
+    const newTotal = total - a;
+    setTotal(newTotal);
+    getProductsFromLocalStorage(productsCart);
   };
 
   const handleSelect = (e) => {
@@ -76,7 +63,7 @@ function Checkout({ history }) {
   };
 
   useEffect(() => {
-    // setProductsCart(getProductsCart());
+    setProductsCart(getProductsCart());
   }, []);
 
   return (
@@ -94,45 +81,45 @@ function Checkout({ history }) {
           </tr>
         </thead>
 
-        {mockDataLocalS.map((item) => (
+        {productsCart.map((item) => (
 
           <tbody key={ item.name }>
             <tr>
               <td
-                data-testid={ `${dataTest}item-number-${mockDataLocalS.indexOf(item)}` }
+                data-testid={ `${dataTest}item-number-${productsCart.indexOf(item)}` }
               >
-                { mockDataLocalS.indexOf(item) + 1 }
+                { productsCart.indexOf(item) + 1 }
 
               </td>
               <td
-                data-testid={ `${dataTest}name-${mockDataLocalS.indexOf(item)}` }
+                data-testid={ `${dataTest}name-${productsCart.indexOf(item)}` }
               >
                 { item.name }
 
               </td>
               <td
-                data-testid={ `${dataTest}quantity-${mockDataLocalS.indexOf(item)}` }
+                data-testid={ `${dataTest}quantity-${productsCart.indexOf(item)}` }
               >
                 { item.quantity}
 
               </td>
               <td
-                data-testid={ `${dataTest}unit-price-${mockDataLocalS.indexOf(item)}` }
+                data-testid={ `${dataTest}unit-price-${productsCart.indexOf(item)}` }
               >
-                { item.unitPrice }
+                { item.unityPrice.replace('.', ',') }
 
               </td>
               <td
-                data-testid={ `${dataTest}sub-total-${mockDataLocalS.indexOf(item)}` }
+                data-testid={ `${dataTest}sub-total-${productsCart.indexOf(item)}` }
               >
-                { item.subTotal }
+                { item.subTotal.toFixed(2).replace('.', ',') }
               </td>
               <td>
                 <button
                   type="button"
-                  value={ mockDataLocalS.indexOf(item) }
-                  data-testid={ `${dataTest}remove-${mockDataLocalS.indexOf(item)}` }
-                  onClick={ (e) => handleClickRemove(e) }
+                  value={ productsCart.indexOf(item) }
+                  data-testid={ `${dataTest}remove-${productsCart.indexOf(item)}` }
+                  onClick={ (e) => handleClickRemove(e, item.subTotal) }
                 >
                   Remover
                 </button>
@@ -142,11 +129,9 @@ function Checkout({ history }) {
         ))}
       </table>
       <h1
-        data-testid={ `${dataTest}element-order-total-price` }
+        data-testid="customer_checkout__element-order-total-price"
       >
-        Total R$
-        {' '}
-        { totalValue }
+        { total.replace('.', ',') }
       </h1>
       <section>
 
