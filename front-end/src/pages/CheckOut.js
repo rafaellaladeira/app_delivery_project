@@ -19,13 +19,13 @@ function Checkout({ history }) {
   const { total, setTotal } = useContext(MyContext);
   const [token, setToken] = useState('');
 
-  console.log(product);
   const dataTest = 'customer_checkout__element-order-table-';
 
   const getProductsFromLocalStorage = (products) => {
     const ids = products.forEach((e) => e.id);
     const qtds = products.forEach((e) => e.quantity);
     setProduct([ids, qtds]);
+    console.log('pop', product);
     return data;
   };
 
@@ -36,10 +36,9 @@ function Checkout({ history }) {
 
   const handleClickRemove = (e, a) => {
     removeProductCart(e);
-    setProductsCart(getProductsCart());
     const newTotal = total - a;
     setTotal(newTotal);
-    getProductsFromLocalStorage(productsCart);
+    setProductsCart(getProductsCart());
   };
 
   const handleSelect = (e) => {
@@ -47,6 +46,7 @@ function Checkout({ history }) {
   };
 
   const handleSubmit = async () => {
+    getProductsFromLocalStorage(productsCart);
     const data = {
       userName: nameCustomer,
       sellerId,
@@ -57,7 +57,6 @@ function Checkout({ history }) {
       // product,
     };
     try {
-      console.log('token front', token);
       const id = await request('customer/checkout', data, token);
       console.log(id);
       history.push(`orders/${id}`);
