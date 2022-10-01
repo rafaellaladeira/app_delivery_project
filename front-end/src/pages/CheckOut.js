@@ -31,7 +31,7 @@ function Checkout({ history }) {
   };
 
   const handleClickRemove = (e, a) => {
-    setTotal(total - a);
+    setTotal(Math.abs(total - a));
     removeProductCart(e);
     setProductsCart(getProductsCart());
   };
@@ -39,11 +39,6 @@ function Checkout({ history }) {
   const handleSelect = (e) => {
     setSellerId(+e.target.value);
   };
-
-  // const getTotalFromLocalS = () => {
-  //   const data = getTotal();
-  //   setTotal(getTotal());
-  // };
 
   const handleSubmit = async () => {
     const data = {
