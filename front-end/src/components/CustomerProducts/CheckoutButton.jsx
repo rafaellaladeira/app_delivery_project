@@ -1,18 +1,18 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import MyContext from '../../context/MyContext';
-import { addProductCart } from '../../services/localStorage';
+import { addProductCart, addTotal } from '../../services/localStorage';
 import '../../styles/CheckoutButton.css';
 
 function CheckoutButton() {
   const { cartProduct } = useContext(MyContext);
-  const { total, setTotal } = useContext(MyContext);
+  const [total, setTotal] = useState(0);
   const [goCheckout, setGoCheckout] = useState(false);
   const [btnDisable, setBtnDisable] = useState(false);
 
   const checkoutPage = (checkout) => {
-    const cartToCheckout = cartProduct.filter((prod) => prod.subTotal !== 0); // ## REMOVE Produto com qtd 0 antes de adicionar no localstorage.
-
+    const cartToCheckout = cartProduct.filter((prod) => prod.quantity !== 0); // ## REMOVE Produto com qtd 0 antes de adicionar no localstorage.
+    addTotal(total);
     addProductCart(cartToCheckout);
     if (checkout) {
       return setGoCheckout(true);

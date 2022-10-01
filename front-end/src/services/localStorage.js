@@ -1,5 +1,6 @@
 const PRODUCTS_CART = 'productsCart';
 const USER = 'user';
+const TOTAL = 'total';
 
 // adiciona o usuário no localStorage
 export const addUser = (user) => {
@@ -17,6 +18,17 @@ export const getNameUser = () => {
 export const getTokenUser = () => {
   const user = JSON.parse(localStorage.getItem(USER)) || [];
   return user.token;
+};
+
+// add o TOTAL do localStorage
+export const addTotal = (total) => {
+  localStorage.setItem(TOTAL, JSON.stringify(total));
+};
+
+// pega o total do localStorage
+export const getTotal = () => {
+  const result = JSON.parse(localStorage.getItem(TOTAL)) || [];
+  return result;
 };
 
 // limpa o localStorage

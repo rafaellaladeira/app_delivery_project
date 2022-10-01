@@ -2,7 +2,7 @@ const salesSchema = (sequelize, DataTypes) => {
   const sales = sequelize.define("Sale", {
     id: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      primaryKey: true,
     },
     userId: {
       type: DataTypes.INTEGER,

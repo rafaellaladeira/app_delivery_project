@@ -6,7 +6,6 @@ import MyContext from '../context/MyContext';
 function Provider({ children }) {
   const [nameSeller, setNameSeller] = useState([]);
   const [cartProduct, setCartProduct] = useState([]);
-  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const getNamesSeller = async () => {
@@ -22,9 +21,7 @@ function Provider({ children }) {
     setNameSeller,
     cartProduct,
     setCartProduct,
-    total,
-    setTotal,
-  }), [nameSeller, cartProduct, total]);
+  }), [nameSeller, cartProduct]);
 
   return (
     <MyContext.Provider value={ providerState }>
