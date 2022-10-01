@@ -9,9 +9,8 @@ const getSeller = async () => {
 
 const postSale = async (data) => {
     const {
-        userName, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
+        userName, productsCart, sellerId, totalPrice, deliveryAddress, deliveryNumber, status,
     } = data;
-    console.log('username serv', userName);
     const userId = await db.User.findOne({
         attributes: ['id'], where: { name: userName },
     });
@@ -23,11 +22,8 @@ const postSale = async (data) => {
         deliveryNumber,
         status,
     });
-    // await db.SalesProduct.create({
-    //     saleId: saleId.null,
-    //     // productId,
-    //     // quantity,
-    // });
+    await Promise.all(productsCart.map((e) => db.SalesProduct
+        .create({ saleId: saleId.null, quantity: e.quantity, productId: e.id })));
     return saleId.null;
 };
 

@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 import {
   removeProductCart,
-  getProductsCart, getTokenUser, getNameUser } from '../services/localStorage';
+  getProductsCart,
+  getTokenUser,
+  getNameUser,
+  getTotal,
+  addTotal } from '../services/localStorage';
 import { request } from '../services/request';
 
 function Checkout({ history }) {
@@ -14,20 +18,12 @@ function Checkout({ history }) {
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
   const [sellerId, setSellerId] = useState(2);
-  const [product, setProduct] = useState([]);
   const [productsCart, setProductsCart] = useState([]);
-  const { total, setTotal } = useContext(MyContext);
+  const [total, setTotal] = useState(0);
+  // const [decrement, setTotalDecrement] = useState(0);
   const [token, setToken] = useState('');
 
   const dataTest = 'customer_checkout__element-order-table-';
-
-  const getProductsFromLocalStorage = (products) => {
-    const ids = products.forEach((e) => e.id);
-    const qtds = products.forEach((e) => e.quantity);
-    setProduct([ids, qtds]);
-    console.log('pop', product);
-    return data;
-  };
 
   const handleChange = ({ target: { name, value } }) => {
     if (name === 'address') setAddress(value);
@@ -35,9 +31,8 @@ function Checkout({ history }) {
   };
 
   const handleClickRemove = (e, a) => {
+    setTotal(total - a);
     removeProductCart(e);
-    const newTotal = total - a;
-    setTotal(newTotal);
     setProductsCart(getProductsCart());
   };
 
@@ -45,8 +40,12 @@ function Checkout({ history }) {
     setSellerId(+e.target.value);
   };
 
+  // const getTotalFromLocalS = () => {
+  //   const data = getTotal();
+  //   setTotal(getTotal());
+  // };
+
   const handleSubmit = async () => {
-    getProductsFromLocalStorage(productsCart);
     const data = {
       userName: nameCustomer,
       sellerId,
@@ -54,18 +53,24 @@ function Checkout({ history }) {
       deliveryAddress: address,
       deliveryNumber: number,
       status: 'Pendente',
-      // product,
+      productsCart,
     };
     try {
       const id = await request('customer/checkout', data, token);
-      console.log(id);
       history.push(`orders/${id}`);
+      if (productsCart.length === 0) {
+        setTotal(0);
+        addTotal(0);
+      } else {
+        addTotal(Number(total.toFixed(2)));
+      }
     } catch (error) {
       return error;
     }
   };
 
   useEffect(() => {
+    setTotal(getTotal());
     setNameCustomer(getNameUser());
     setToken(getTokenUser());
     setProductsCart(getProductsCart());
