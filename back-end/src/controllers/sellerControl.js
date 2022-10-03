@@ -14,6 +14,7 @@ const update = async (req, res , next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
+        console.log('status control', status);
         const data = await service.update({ id, status});
         if (data) return res.status(200).end;
     } catch (error) {

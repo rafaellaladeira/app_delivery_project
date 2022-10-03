@@ -11,7 +11,7 @@ const getAllOrdersFromSeller = async () => {
 };
 
 const update = async ({id ,status}) => {
-    console.log('id', id);
+    console.log('status', status);
     const data = await db.Sale.update({ status , where: { id } });
     return data;
 };
