@@ -10,4 +10,13 @@ const getAllOrdersFromSeller = async () => {
     return data;
 };
 
-module.exports = { getAllOrdersFromSeller };
+const update = async ({id ,status}) => {
+    console.log('id', id);
+    const data = await db.Sale.update({ status , where: { id } });
+    return data;
+};
+
+module.exports = { 
+    getAllOrdersFromSeller, 
+    update,
+};

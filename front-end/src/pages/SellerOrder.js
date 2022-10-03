@@ -3,6 +3,7 @@ import formatDate from '../shared/date';
 import numberToBrl from '../shared/currency';
 import { getOrder } from '../services/orders';
 import OrderProductDetailsTable from '../components/SellerDetailsOrder';
+import { update } from '../services/request';
 
 const ID_LENGTH = 4;
 const LAST_INDEX = -1;
@@ -52,15 +53,23 @@ export default function SellerOrder() {
           >
             { order.status }
           </p>
-          { order.status !== 'delivered' && (
-            <button
-              type="button"
-              data-testid="seller_order_details__button-delivery-check"
-              disabled
-            >
-              Marcar como entregue
-            </button>
-          ) }
+
+          <button
+            type="button"
+            data-testid="seller_order_details__button-preparing-check"
+            disabled={ order.status !== 'Pendente' }
+            onClick={ () => update(`/seller/orders/${order.id}`, 'Preparando') }
+          >
+            Preparar pedido
+          </button>
+          <button
+            type="button"
+            data-testid="seller_order_details__button-dispatch-check"
+            disabled={ order.status !== 'Preparando' }
+            onClick={ () => update(`/seller/orders/${order.id}`, 'Em trânsito') }
+          >
+            Saiu para entrega
+          </button>
         </div>
         <OrderProductDetailsTable order={ order } />
 

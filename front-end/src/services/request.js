@@ -24,4 +24,9 @@ export const getAllProducts = async (endpoint) => {
   return data;
 };
 
+export const update = async (endpoint, body) => {
+  const { data } = await api.put(endpoint, body);
+  return data;
+};
+
 export default api;
