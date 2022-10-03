@@ -7,6 +7,8 @@ import { update } from '../services/request';
 
 const ID_LENGTH = 4;
 const LAST_INDEX = -1;
+const PREPARANDO = { status: 'Preparando' };
+const TRANSITO = { status: 'Em Trânsito' };
 
 export default function SellerOrder() {
   const orderId = window.location.pathname.split('/').at(LAST_INDEX);
@@ -17,7 +19,7 @@ export default function SellerOrder() {
       const orderData = await getOrder(orderId);
       setOrder(orderData);
     })();
-  }, [orderId]);
+  }, [orderId, order]);
 
   if (!order) return (<div />);
   return (
@@ -58,7 +60,7 @@ export default function SellerOrder() {
             type="button"
             data-testid="seller_order_details__button-preparing-check"
             disabled={ order.status !== 'Pendente' }
-            onClick={ () => update(`/seller/orders/${order.id}`, 'Preparando') }
+            onClick={ () => update(`/seller/orders/${order.id}`, PREPARANDO) }
           >
             Preparar pedido
           </button>
@@ -66,7 +68,7 @@ export default function SellerOrder() {
             type="button"
             data-testid="seller_order_details__button-dispatch-check"
             disabled={ order.status !== 'Preparando' }
-            onClick={ () => update(`/seller/orders/${order.id}`, 'Em trânsito') }
+            onClick={ () => update(`/seller/orders/${order.id}`, TRANSITO) }
           >
             Saiu para entrega
           </button>

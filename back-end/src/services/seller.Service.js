@@ -1,7 +1,6 @@
 const db = require('../database/models');
 
 const getAllOrdersFromSeller = async () => {
-    console.log('entrei aqui');
     const data = await db.Sale.findAll({
         attributes: ['id', 'total_price', 'status', 'sale_date'],
         where: { sellerId: 2 },
@@ -10,9 +9,11 @@ const getAllOrdersFromSeller = async () => {
     return data;
 };
 
-const update = async ({id ,status}) => {
-    console.log('status', status);
-    const data = await db.Sale.update({ status , where: { id } });
+const update = async (infos) => {
+    const { id, status } = infos;
+    const data = await db.Sale.update({ status: status.status }, { 
+        where: { id: Number(id) },
+    });
     return data;
 };
 
