@@ -3,7 +3,6 @@ import formatDate from '../shared/date';
 import numberToBrl from '../shared/currency';
 import { getOrder } from '../services/orders';
 import OrderProductDetailsTable from '../components/SellerDetailsOrder';
-import NavProducts from '../components/CustomerProducts/NavProducts';
 
 const ID_LENGTH = 4;
 const LAST_INDEX = -1;
@@ -22,7 +21,6 @@ export default function SellerOrder() {
   if (!order) return (<div />);
   return (
     <div>
-      <NavProducts />
       <h1>Detalhes do pedido</h1>
       <article>
         <div

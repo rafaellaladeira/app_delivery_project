@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
 import numberToBrl from '../shared/currency';
+import NavProducts from './CustomerProducts/NavProducts';
 
 function OrderProductDetailsTable({ order }) {
   return (
     <section>
+      <NavProducts />
       <table className="details-items">
         <thead>
           <tr>
