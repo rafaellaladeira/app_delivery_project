@@ -28,9 +28,9 @@ function Login({ history }) {
     try {
       const result = await request('/login', { email, password });
       addUser(result);
-      console.log(result);
-
-      if (setFailedTryLogin) history.push('customer/products');
+      if (result.role === 'seller') history.push('/seller/orders');
+      else if (setFailedTryLogin) history.push('customer/products');
+      else history.push('/admin/manage');
     } catch (error) {
       setFailedTryLogin(true);
       setEmail('');
@@ -38,19 +38,21 @@ function Login({ history }) {
     }
   };
 
-  useEffect(() => {
-    try {
-      const { role } = JSON.parse(localStorage.getItem('user'));
-
-      if (role) {
-        if (role === 'customer') history.push('/customer/products');
-        else if (role === 'seller') history.push('/seller/orders');
-        else history.push('/admin/manage');
-      }
-    } catch (err) {
-      console.log('Something went wrong...');
-    }
-  }, [history]);
+  // useEffect(() => {
+  //   try {
+  //     const { role } = JSON.parse(localStorage.getItem('user'));
+  //     console.log('roooole', role);
+  //     if (role === 'customer') {
+  //       history.push('/customer/products');
+  //     } else if (role === 'seller') {
+  //       history.push('/seller/orders');
+  //     } else {
+  //       history.push('/admin/manage');
+  //     }
+  //   } catch (err) {
+  //     console.log('Something went wrong...');
+  //   }
+  // }, [history]);
 
   return (
     <section>
