@@ -4,12 +4,14 @@ import numberToBrl from '../shared/currency';
 import { getInfo } from '../services/request';
 import NavProducts from '../components/CustomerProducts/NavProducts';
 
+const ID_LENGTH = 4;
+
 function SellerOrders() {
   const [sellers, setSellers] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const sellerData = await getInfo('/seller/orders');
+      const sellerData = await getInfo('seller/orders');
       setSellers(sellerData);
     })();
   }, []);
@@ -20,7 +22,7 @@ function SellerOrders() {
       { sellers.map((seller) => (
         <a
           href={ `/seller/orders/${seller.id}` }
-          key={ order.id }
+          key={ seller.id }
         >
           <article
             data-testid={ `seller_products__element-order-date-${seller.id}` }

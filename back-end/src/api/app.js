@@ -23,7 +23,7 @@ app.use('/register', registerRouter);
 app.use('/products', productRouter);
 app.use('/orders', orderRouter);
 app.use('/customer', customerRouter);
-app.use('seller/orders', sellerRouter);
+app.use('/seller/orders', sellerRouter);
 app.use(errorMiddleware);
 
 module.exports = app;
