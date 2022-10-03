@@ -15,8 +15,18 @@ function NavProducts() {
   return (
     <nav className="nav-bar">
       <div>
-        <p data-testid="customer_products__element-navbar-link-products">PRODUTOS</p>
-        <p data-testid="customer_products__element-navbar-link-orders">MEUS PEDIDOS</p>
+        <a
+          data-testid="customer_products__element-navbar-link-products"
+          href="/customer/products"
+        >
+          PRODUTOS
+        </a>
+        <a
+          data-testid="customer_products__element-navbar-link-orders"
+          href="/customer/orders"
+        >
+          MEUS PEDIDOS
+        </a>
       </div>
       <div>
         <p
