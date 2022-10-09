@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { request } from '../services/request';
 import { addUser } from '../services/localStorage';
-// import MyContext from '../context/MyContext';
+import logo from '../images/beer.svg';
+import '../styles/Login.css';
 
 function Login({ history }) {
   const [email, setEmail] = useState('');
@@ -57,6 +58,8 @@ function Login({ history }) {
 
   return (
     <section>
+      <h1 className="birita">Birita Delivery</h1>
+      <img className="logo" src={ logo } alt="logo" />
       <form className="login-form">
         <label htmlFor="email">
           Login:
@@ -97,6 +100,7 @@ function Login({ history }) {
 
         <button
           type="submit"
+          className="button"
           disabled={ !valid }
           onClick={ handleSubmit }
           data-testid="common_login__button-login"
@@ -106,6 +110,7 @@ function Login({ history }) {
 
         <button
           type="button"
+          className="button"
           onClick={ () => history.push('/register') }
           data-testid="common_login__button-register"
         >
