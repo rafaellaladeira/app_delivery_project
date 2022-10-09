@@ -3,6 +3,7 @@
 Projeto de finalização do módulo de Backend da Trybe.
 
 Neste projeto em grupo, foi desenvolvido uma aplicação Fullstack de um app de delivery de bebidas.
+
 No front foi utilizado: HTML, JS, React, Context API;
 No back foi utilizado: Node.js, Express, Sequelize, Arq. MSC, axios;
 
